@@ -4,30 +4,30 @@ class MCAPI {
     var $version = "1.1";
     var $errorMessage;
     var $errorCode;
-    
+
     /**
      * Cache the information on the API location on the server
      */
     var $apiUrl;
-    
+
     /**
      * Default to a 300 second timeout on server calls
      */
-    var $timeout = 300; 
-    
+    var $timeout = 300;
+
     /**
      * Default to a 8K chunk size
      */
     var $chunkSize = 8192;
-    
+
     /**
      * Cache the user api_key so we only have to log in once per client instantiation
      */
     var $api_key;
-    
+
     /**
      * Connect to the MailChimp API for a given list. All MCAPI calls require login before functioning
-     * 
+     *
      * @param string $username Your MailChimp login user name - always required
      * @param string $password Your MailChimp login password - always required
      */
@@ -162,27 +162,27 @@ class MCAPI {
      * @example xml-rpc_campaignSegmentTest.php
      *
      * @param string $list_id the list to test segmentation on - get lists using lists()
-     * @param array $options with 2 keys:  
+     * @param array $options with 2 keys:
              string "match" controls whether to use AND or OR when applying your options - expects "<strong>any</strong>" (for OR) or "<strong>all</strong>" (for AND)
              array "conditions" - up to 10 different criteria to apply while segmenting. Each criteria row should contain 3 keys - "<strong>field</strong>", "<strong>op</strong>", or "<strong>value</strong>" based on these definitions:
-    
+
             Field = "<strong>date</strong>" : Select based on various dates we track
                 Valid Op(eration): <strong>eq</strong> (is) / <strong>gt</strong> (after) / <strong>lt</strong> (before)
-                Valid Values: 
+                Valid Values:
                 string last_campaign_sent  uses the date of the last campaign sent
                 string campaign_id - uses the send date of the campaign that carriers the Id submitted - see campaigns()
                 string YYYY-MM-DD - ny date in the form of YYYY-MM-DD - <i>note:</i> anything that appears to start with YYYY will be treated as a date
-                          
+
             Field = "<strong>interests</strong>":
-                Valid Op(erations): <strong>one</strong> / <strong>none</strong> / <strong>all</strong> 
-                Valid Values: a comma delimited of interest groups for the list - see listInterestGroups()    
-        
+                Valid Op(erations): <strong>one</strong> / <strong>none</strong> / <strong>all</strong>
+                Valid Values: a comma delimited of interest groups for the list - see listInterestGroups()
+
             Field = "<strong>aim</strong>"
                 Valid Op(erations): <strong>open</strong> / <strong>noopen</strong> / <strong>click</strong> / <strong>noclick</strong>
                 Valid Values: "<strong>any</strong>" or a valid AIM-enabled Campaign that has been sent
-        
+
             Default Field = A Merge Var. Use <strong>Merge0-Merge15</strong> or the <strong>Custom Tag</strong> you've setup for your merge field - see listMergeVars()
-                Valid Op(erations): 
+                Valid Op(erations):
                  <strong>eq</strong> (=)/<strong>ne</strong>(!=)/<strong>gt</strong>(>)/<strong>lt</strong>(<)/<strong>like</strong>(like '%blah%')/<strong>nlike</strong>(not like '%blah%')/<strong>starts</strong>(like 'blah%')/<strong>ends</strong>(like '%blah')
                 Valid Values: any string
      * @return integer total The total number of subscribers matching your segmentation options
@@ -216,18 +216,18 @@ class MCAPI {
             array analytics optional - if provided, use a struct with "service type" as a key and the "service tag" as a value. For Google, this should be "google"=>"your_google_analytics_key_here". Note that only "google" is currently supported - a Google Analytics tags will be added to all links in the campaign with this string attached. Others may be added in the future
             boolean inline_css optional Whether or not css should be automatically inlined when this campaign is sent, defaults to false.
             boolean generate_text optional Whether of not to auto-generate your Text content from the HTML content. Note that this will be ignored if the Text part of the content passed is not empty, defaults to false.
-    
-    * @param array $content the content for this campaign - use a struct with the following keys: 
+
+    * @param array $content the content for this campaign - use a struct with the following keys:
                 "html" for pasted HTML content
                 "text" for the plain-text version
-                "url" to have us pull in content from a URL (will replace any "html" content you pass in - can be used with "generate_text" option as well).  
-                
+                "url" to have us pull in content from a URL (will replace any "html" content you pass in - can be used with "generate_text" option as well).
+
                 If you chose a template instead of pasting in your HTML content, then use "html_" followed by the template sections as keys - for example, use a key of "html_MAIN" to fill in the "MAIN" section of a template. Supported template sections include: "html_HEADER", "html_MAIN", "html_SIDECOLUMN", and "html_FOOTER"
     * @param array $segment_opts optional - if you wish to do Segmentation with this campaign this array should contain: see campaignSegmentTest(). You should test your options against campaignSegmentTest() as campaignCreate() will not allow you to set a segment that includes no members. Also, "trans" campaigns <strong>do not</strong> support segmentation.
-    * @param array $type_opts optional - 
+    * @param array $type_opts optional -
             For RSS Campaigns this, array should contain:
                 string url the URL to pull RSS content from - it will be verified and must exist
-             
+
             For A/B Split campaigns, this array should contain:
                 string split_test The values to segment based on. Currently, one of: "subject", "from_name", "schedule". NOTE, for "schedule", you will need to call campaignSchedule() separately!
                 string pick_winner How the winner will be picked, one of: "opens" (by the open_rate), "clicks" (by the click rate), "manual" (you pick manually)
@@ -646,7 +646,7 @@ class MCAPI {
     }
 
     /**
-     * Delete a merge tag from a given list and all it's members. Note that on large lists this method 
+     * Delete a merge tag from a given list and all it's members. Note that on large lists this method
      * may seem a bit slower than calls you typical make.
      *
      * @section List Related
@@ -685,7 +685,7 @@ class MCAPI {
      *
      * @section List Related
      * @example xml-rpc_listInterestGroupAdd.php
-     * 
+     *
      * @param string $id the list id to connect to
      * @param string $group_name the interest group to add
      * @return bool true if the request succeeds, otherwise an error will be thrown
@@ -701,7 +701,7 @@ class MCAPI {
      *
      * @section List Related
      * @example xml-rpc_listInterestGroupDel.php
-     * 
+     *
      * @param string $id the list id to connect to
      * @param string $group_name the interest group to delete
      * @return bool true if the request succeeds, otherwise an error will be thrown
@@ -794,7 +794,7 @@ class MCAPI {
      * @example xml-rpc_listBatchSubscribe.php
      *
      * @param string $id the list id to connect to
-     * @param array $batch an array of structs for each address to import with two special keys: "EMAIL" for the email address, and "EMAIL_TYPE" for the email type option (html or text) 
+     * @param array $batch an array of structs for each address to import with two special keys: "EMAIL" for the email address, and "EMAIL_TYPE" for the email type option (html or text)
      * @param boolean $double_optin flag to control whether to send an opt-in confirmation email - defaults to true
      * @param boolean $update_existing flag to control whether to update members that are already subscribed to the list or to return an error, defaults to false (return error)
      * @param boolean $replace_interests flag to determine whether we replace the interest groups with the updated groups provided, or we add the provided groups to the member's interest groups (optional, defaults to true)
@@ -876,7 +876,7 @@ class MCAPI {
      * @returnf string email_type The type of emails this customer asked to get: html or text
      * @returnf array merges An associative array of all the merge tags and the data for those tags for this email address
      * @returnf string status The subscription status for this email address, either subscribed, unsubscribed or cleaned
-     * @returnf string ip_opt IP Address this address opted in from. 
+     * @returnf string ip_opt IP Address this address opted in from.
      * @returnf string ip_signup IP Address this address signed up from.
      * @returnf date timestamp The time this email address was added to the list
      */
@@ -893,7 +893,7 @@ class MCAPI {
      * @section Helper
      *
      * @return array containing your Affilliate Id and full link.
-     * @returnf string user_id Your User Unique Id. 
+     * @returnf string user_id Your User Unique Id.
      * @returnf string url Your Monkey Rewards link for our Affiliate program
      */
     function getAffiliateInfo() {
@@ -976,9 +976,9 @@ class MCAPI {
 
     /**
      * Expire a Specific API Key. Note that if you expire all of your keys, a new, valid one will be created and returned
-     * next time you call login(). If you are trying to shut off access to your account for an old developer, change your 
-     * MailChimp password, then expire all of the keys they had access to. Note that this takes effect immediately, so make 
-     * sure you replace the keys in any working application before expiring them! Consider yourself warned... 
+     * next time you call login(). If you are trying to shut off access to your account for an old developer, change your
+     * MailChimp password, then expire all of the keys they had access to. Note that this takes effect immediately, so make
+     * sure you replace the keys in any working application before expiring them! Consider yourself warned...
      *
      * @section Security Related
      * @example xml-rpc_apikeyExpire.php
@@ -1018,7 +1018,7 @@ class MCAPI {
         $params = array();
         return $this->callServer("callMethod", $params);
     }
-    
+
     /**
      * Actually connect to the server and call the requested methods, parsing the result
      * You should never have to call this function manually
@@ -1028,9 +1028,9 @@ class MCAPI {
     	if($method != "login") {
     		$params["apikey"] = $this->api_key;
     	}
-        
+
         $post_vars = $this->httpBuildQuery($params);
-        
+
         $payload = "POST " . $this->apiUrl["path"] . "?" . $this->apiUrl["query"] . "&method=" . $method . " HTTP/1.0\r\n";
         $payload .= "Host: " . $this->apiUrl["host"] . "\r\n";
         $payload .= "User-Agent: MCAPI/" . $this->version ."\r\n";
@@ -1038,7 +1038,7 @@ class MCAPI {
         $payload .= "Content-length: " . strlen($post_vars) . "\r\n";
         $payload .= "Connection: close \r\n\r\n";
         $payload .= $post_vars;
-        
+
         ob_start();
         $sock = fsockopen($this->apiUrl["host"], 80, $errno, $errstr, $this->timeout);
         if(!$sock) {
@@ -1047,7 +1047,7 @@ class MCAPI {
             ob_end_clean();
             return false;
         }
-        
+
         $response = "";
         fwrite($sock, $payload);
         while(!feof($sock)) {
@@ -1055,11 +1055,11 @@ class MCAPI {
         }
         fclose($sock);
         ob_end_clean();
-        
+
         list($throw, $response) = explode("\r\n\r\n", $response, 2);
-        
+
         if(ini_get("magic_quotes_runtime")) $response = stripslashes($response);
-        
+
         $serial = unserialize($response);
         if($response && $serial === false) {
         	$response = array("error" => "Bad Response.  Got This: " . $response, "code" => "-99");
@@ -1071,29 +1071,29 @@ class MCAPI {
             $this->errorCode = $response["code"];
             return false;
         }
-        
+
         return $response;
     }
-    
+
     /**
      * Re-implement http_build_query for systems that do not already have it
      */
     function httpBuildQuery($params, $key=null) {
         $ret = array();
-        
+
         foreach((array) $params as $name => $val) {
             $name = urlencode($name);
             if($key !== null) {
                 $name = $key . "[" . $name . "]";
             }
-            
+
             if(is_array($val) || is_object($val)) {
                 $ret[] = $this->httpBuildQuery($val, $name);
             } elseif($val !== null) {
                 $ret[] = $name . "=" . urlencode($val);
             }
         }
-        
+
         return implode("&", $ret);
     }
 }
