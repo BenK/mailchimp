@@ -1,5 +1,5 @@
 <?php
-// $Id: mailchimp.module,v 1.2.2.1.2.3.2.4 2009/02/26 19:36:55 loubabe Exp $
+// $Id: mailchimp.module,v 1.2.2.1.2.3.2.5 2009/02/26 20:23:44 loubabe Exp $
 
 /**
  * @file
@@ -181,7 +181,7 @@ function mailchimp_cron() {
 
           if ($ret['error_count'] > 0) {
             foreach ((array)$ret['errors'] as $error) {
-              watchdog('mailchimp', $error['email_address'] .': '. $error['message'], WATCHDOG_ERROR);
+              watchdog('mailchimp', $error['email_address'] .': '. $error['message'], array(), WATCHDOG_ERROR);
             }
           }
         }
