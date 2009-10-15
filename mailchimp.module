@@ -1,5 +1,5 @@
 <?php
-// $Id: mailchimp.module,v 1.2.2.1.2.3.2.8.2.29 2009/10/07 04:15:10 loubabe Exp $
+// $Id: mailchimp.module,v 1.2.2.1.2.3.2.8.2.30 2009/10/15 19:23:46 loubabe Exp $
 
 /**
  * @file
@@ -509,6 +509,11 @@ function mailchimp_admin_settings() {
  * @param <type> $form_state
  */
 function mailchimp_admin_settings_validate($form, &$form_state) {
+  // no lists selected or first time here
+  if(!is_array($form_state['values']['mailchimp_lists'])){
+    return;
+  }
+  
   $lists = array();
   foreach ($form_state['values']['mailchimp_lists'] as $form_list) {
     $list = new stdClass();
