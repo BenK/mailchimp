@@ -1,5 +1,5 @@
 <?php
-// $Id: mailchimp.module,v 1.2.2.1.2.3 2009/01/26 22:42:30 loubabe Exp $
+// $Id: mailchimp.module,v 1.2.2.1.2.4 2009/10/29 18:27:23 loubabe Exp $
 
 /**
  * @file
@@ -218,7 +218,7 @@ function mailchimp_menu($may_cache) {
     $items[] = array(
       'path'     => 'mailchimp/subscribe/message',
       'callback' => 'mailchimp_subscribe_message',
-      'title'    => t('MailChump Subscription Message'),
+      'title'    => t('MailChimp Subscription Message'),
       'type'     => MENU_CALLBACK,
       'access'   => TRUE,
    );
