@@ -1,5 +1,5 @@
 <?php
-// $Id: mailchimp.module,v 1.2.2.1.2.3.2.8.2.48 2010/02/25 16:31:51 loubabe Exp $
+// $Id: mailchimp.module,v 1.2.2.1.2.3.2.8.2.49 2010/02/25 16:49:48 loubabe Exp $
 
 /**
  * @file
@@ -31,8 +31,7 @@ function mailchimp_user($op, &$edit, &$account, $category = NULL) {
     }
   }
 
-  if (in_array($op, array('insert', 'delete', 'update'))) {
-    $q = _mailchimp_get_api_object();
+  if (in_array($op, array('insert', 'delete', 'update')) && $q = _mailchimp_get_api_object()) {
     foreach ((array)_mailchimp_get_required_lists() as $list) {
       $action_taken = FALSE;
       switch ($op) {
